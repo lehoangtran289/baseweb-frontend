@@ -5,6 +5,7 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 
+// thunk action creator!
 export const logout = () => {
   return (dispatch, getState) => {
     dispatch(requesting()); //create action
@@ -34,6 +35,7 @@ export const logout = () => {
   }
 }
 
+// thunk action creator!
 export const login = (username, password) => {
   return (dispatch) => {
     dispatch(requesting()); //create action
