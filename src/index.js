@@ -1,15 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import appReducer from "./reducers"
-import * as serviceWorker from './serviceWorker';
-import {Provider} from "react-redux";
-import thunkMiddleware from "redux-thunk"
-import {createLogger} from "redux-logger/src";
-import {applyMiddleware, createStore} from "redux";
-import {composeWithDevTools} from "redux-devtools-extension";
-import {LOGOUT_SUCCESS} from "./action";
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import appReducer from "./reducers";
+import * as serviceWorker from "./serviceWorker";
+import { Provider } from "react-redux";
+import thunkMiddleware from "redux-thunk";
+import { createLogger } from "redux-logger/src";
+import { applyMiddleware, createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import { LOGOUT_SUCCESS } from "./action";
 
 const loggerMiddleware = createLogger();
 
@@ -23,7 +23,10 @@ if (process.env.NODE_ENV !== "production") {
 
 var startState = {};
 
-if (localStorage.getItem("TOKEN") !== null && localStorage.getItem("TOKEN") !== "null") {
+if (
+  localStorage.getItem("TOKEN") !== null &&
+  localStorage.getItem("TOKEN") !== "null"
+) {
   startState = {
     auth: {
       token: localStorage.getItem("TOKEN"),
@@ -41,11 +44,11 @@ if (localStorage.getItem("TOKEN") !== null && localStorage.getItem("TOKEN") !== 
 
 const rootReducer = (state, action) => {
   if (action.type === LOGOUT_SUCCESS) {
-    state = undefined
+    state = undefined;
   }
 
   return appReducer(state, action);
-}
+};
 
 const store = createStore(
   rootReducer,
@@ -55,15 +58,13 @@ const store = createStore(
 
 store.subscribe(() => {
   localStorage.setItem("TOKEN", store.getState().auth.token);
-})
-
-console.log(store.getState())
+});
 
 ReactDOM.render(
   <Provider store={store}>
-    <App/>
+    <App />
   </Provider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want your app to work offline and load faster, you can change
