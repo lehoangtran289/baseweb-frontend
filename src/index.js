@@ -57,6 +57,8 @@ store.subscribe(() => {
   localStorage.setItem("TOKEN", store.getState().auth.token);
 })
 
+console.log(store.getState())
+
 ReactDOM.render(
   <Provider store={store}>
     <App/>
