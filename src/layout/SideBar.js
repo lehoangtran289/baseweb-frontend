@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    // justifyContent: "flex",
+    justifyContent: "flex",
   },
   drawerPaper: {
     width: drawerWidth,
@@ -185,7 +185,9 @@ function ListMenuItem(props) {
 
 function MenuItem(props) {
   let classes = useStyles();
-  if (!props.config.isPublic) if (!props.menu.has(props.config.id)) return "";
+
+  if (!props.config.isPublic && !props.menu.has(props.config.id)) return "";
+
   let icon = (
     <ListItemIcon>{props.iconMap.get(props.config.icon)}</ListItemIcon>
   );
