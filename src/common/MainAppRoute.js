@@ -12,11 +12,12 @@ function MainAppRoute(props) {
   const location = useLocation();
   const dispatch = useDispatch();
 
+  // each time "location" change, update selected function
   useEffect(() => {
     if (location.pathname === "/" || location.pathname === "")
       dispatch(updateSelectedFunction(null));
 
-    let selectedFunction = mapPathMenu.get(location.pathname); //menu obj
+    let selectedFunction = mapPathMenu.get(location.pathname); // selected function = menu obj
     if (selectedFunction !== undefined && selectedFunction !== null)
       dispatch(updateSelectedFunction(selectedFunction));
   }, [location]);
