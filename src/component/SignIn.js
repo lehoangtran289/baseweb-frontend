@@ -86,7 +86,7 @@ export default function SignIn(props) {
           <img
             className={classes.avatar}
             src={process.env.PUBLIC_URL + "/logo192.png"}
-          ></img>
+          />
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>

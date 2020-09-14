@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbarButtons: {
     marginLeft: "auto",
-    marginRight: -12,
+    marginRight: -theme.spacing(0.5),
   },
   content: {
     flexGrow: 1,
