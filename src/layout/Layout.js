@@ -11,11 +11,21 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountButton from "./AccountButton";
 import SideBar from "./SideBar";
+import Button from "@material-ui/core/Button";
 
 const drawerWidth = 340;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+  },
+  header: {
+    color: "#FFF",
+  },
+  headerButton: {
+    "&:hover": {
+      backgroundColor: "#3f51b5",
+    },
+    paddingLeft: 0,
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -133,9 +143,16 @@ function Layout(props) {
               [classes.appBarTitle]: open,
             })}
           >
-            <Typography variant="h6" noWrap>
-              Basic web infrastructure
-            </Typography>
+            <Button
+              className={classes.headerButton}
+              href="/"
+              disableElevation
+              disableRipple
+            >
+              <Typography className={classes.header} variant="h6" noWrap>
+                Basic web infrastructure
+              </Typography>
+            </Button>
           </div>
           <span className={classes.toolbarButtons}>
             <AccountButton handleLogout={handleLogout} />
