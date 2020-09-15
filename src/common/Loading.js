@@ -1,17 +1,17 @@
-import React from 'react';
-import {makeStyles} from "@material-ui/styles";
-import {Grid, Typography} from "@material-ui/core";
+import React from "react";
+import { Grid, Typography } from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import makeStyles from "@material-ui/core/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(4)
+    padding: theme.spacing(4),
   },
   content: {
     paddingTop: 150,
     textAlign: "center",
   },
-}))
+}));
 
 function Loading(props) {
   const classes = useStyles();
@@ -21,7 +21,7 @@ function Loading(props) {
       <Grid container justify="center" spacing={4}>
         <Grid item lg={6} xs={12}>
           <div className={classes.content}>
-            <CircularProgress size={100}/>
+            <CircularProgress size={100} />
             <Typography variant="h5">Loading . . . . . </Typography>
           </div>
         </Grid>

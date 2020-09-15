@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { useLocation } from "react-router";
 import { Route, Switch } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -9,7 +9,7 @@ import Loading from "./Loading";
 import NotFoundError from "./NotFoundError";
 import PrivateRoute from "./PrivateRoute";
 import Home from "../component/Home";
-import { lazy } from "yup";
+// import UserLoginRoute from "../routers/UserLoginRoute";
 
 const UserLoginRoute = lazy(() => import("../routers/UserLoginRoute"));
 

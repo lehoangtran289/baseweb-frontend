@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   appBarTitle: {
-    marginLeft: theme.spacing(2),
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
