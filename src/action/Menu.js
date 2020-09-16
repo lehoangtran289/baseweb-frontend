@@ -1,4 +1,4 @@
-import api, { authGet } from "../api";
+import api from "../api";
 
 export const MENU_REQUESTING = "MENU_REQUESTING";
 export const MENU_REQUEST_SUCCESS = "MENU_REQUEST_SUCCESS";
@@ -10,10 +10,11 @@ export const SELECTED_FUNCTION_UPDATE = "SELECTED_FUNCTION_UPDATE";
 export const getMenu = () => {
   return (dispatch, getState) => {
     dispatch(menuRequesting());
-    authGet(dispatch, getState().auth.token, "/menu").then(
+    api.getMenu(dispatch, getState().auth.token, "/menu").then(
       (data) => {
         console.log(data);
-        dispatch(menuRequestSuccess(data));
+        if (!data) dispatch(menuRequestFailed());
+        else dispatch(menuRequestSuccess(data));
       },
       (error) => {
         console.log(error);
