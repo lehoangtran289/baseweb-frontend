@@ -12,8 +12,9 @@ import MenuIcon from "@material-ui/icons/Menu";
 import AccountButton from "./AccountButton";
 import SideBar from "./SideBar";
 import Button from "@material-ui/core/Button";
+import { Redirect } from "react-router";
 
-const drawerWidth = 340;
+const drawerWidth = 300;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -145,7 +146,7 @@ function Layout(props) {
           >
             <Button
               className={classes.headerButton}
-              href="/"
+              onClick={() => <Redirect to={"/"} />}
               disableElevation
               disableRipple
             >

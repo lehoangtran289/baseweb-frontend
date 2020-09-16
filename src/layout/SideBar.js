@@ -17,7 +17,7 @@ import { ExpandLess, ExpandMore, StarBorder } from "@material-ui/icons";
 import Collapse from "@material-ui/core/Collapse";
 import { Link } from "react-router-dom";
 
-const drawerWidth = 340;
+const drawerWidth = 300;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -111,8 +111,6 @@ export default function SideBar(props) {
         open={open}
         classes={{
           paper: classes.drawerPaper,
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
         }}
       >
         <div className={classes.drawerHeader}>
@@ -139,7 +137,7 @@ export default function SideBar(props) {
                 <ListItemIcon>
                   <PersonIcon />
                 </ListItemIcon>
-                <ListItemText primary="Tài khoản" />
+                <ListItemText primary="Account" />
                 {openCollapse.has("MENU_USER") ? (
                   <ExpandLess />
                 ) : (
@@ -162,7 +160,7 @@ export default function SideBar(props) {
                       <ListItemIcon>
                         <StarBorder />
                       </ListItemIcon>
-                      <ListItemText primary="Tạo mới" />
+                      <ListItemText primary="Create new user" />
                     </ListItem>
                   ) : (
                     ""
@@ -177,7 +175,7 @@ export default function SideBar(props) {
                       <ListItemIcon>
                         <StarBorder />
                       </ListItemIcon>
-                      <ListItemText primary="Danh sách" />
+                      <ListItemText primary="User list" />
                     </ListItem>
                   ) : (
                     ""
