@@ -1,7 +1,6 @@
 import axios from "axios";
-import {API_URL} from "./config/config";
-import {failed} from "./action";
-
+import { API_URL } from "./config/config";
+import { failed } from "./action";
 
 export const authPost = (dispatch, token, url, body) => {
   return fetch(API_URL + url, {
@@ -45,8 +44,8 @@ export const authGet = (dispatch, token, url) => {
     (error) => {
       console.log(error);
     }
-  )
-}
+  );
+};
 
 export const authDelete = (dispatch, token, url) => {
   return fetch(API_URL + url, {
@@ -69,11 +68,11 @@ export const authDelete = (dispatch, token, url) => {
   );
 };
 
-// export default {
-//   getMenu: (dispatch, token) => {
-//     return authGet(dispatch, token, "/menu");
-//   }
-// }
+export default {
+  getMenu: (dispatch, token) => {
+    return authGet(dispatch, token, "/menu");
+  },
+};
 
 export const axiosPost = (dispatch, token, url, data) => {
   return axios.post(API_URL + url, data, {

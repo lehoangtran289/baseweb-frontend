@@ -21,7 +21,7 @@ if (process.env.NODE_ENV !== "production") {
   middleware = [...middleware, loggerMiddleware];
 }
 
-var startState = {};
+let startState;
 
 if (
   localStorage.getItem("TOKEN") !== null &&

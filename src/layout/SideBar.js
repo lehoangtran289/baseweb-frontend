@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { useTheme } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
 import Drawer from "@material-ui/core/Drawer";
 import clsx from "clsx";
-import { MENU_LIST, menuIconMap } from "../config/menuconfig";
+import IconButton from "@material-ui/core/IconButton";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import PersonIcon from "@material-ui/icons/Person";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import Divider from "@material-ui/core/Divider";
 import { List } from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
-import Collapse from "@material-ui/core/Collapse";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import Link from "@material-ui/core/Link";
-import IconButton from "@material-ui/core/IconButton";
-import Divider from "@material-ui/core/Divider";
+import ListItemText from "@material-ui/core/ListItemText";
+import { ExpandLess, ExpandMore, StarBorder } from "@material-ui/icons";
+import Collapse from "@material-ui/core/Collapse";
+import { Link } from "react-router-dom";
 
-const drawerWidth = 340;
+const drawerWidth = 300;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
+    whiteSpace: "nowrap",
   },
   drawerOpen: {
     width: drawerWidth,
@@ -58,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     padding: theme.spacing(0, 1),
+    marginBottom: theme.spacing(0),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
     justifyContent: "flex",
@@ -66,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
   },
   menu: {
-    paddingTop: theme.spacing(10),
+    paddingTop: theme.spacing(3),
   },
   largeIcon: {
     width: 50,
@@ -77,46 +79,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SideBar(props) {
+export default function SideBar(props) {
   const classes = useStyles();
   const theme = useTheme();
   const open = props.open;
+
   const selectedFunction = useSelector((state) => state.menu.selectedFunction);
 
   const [openCollapse, setOpenCollapse] = useState(new Set());
 
-  const handleOpenCollapseMenu = (id) => {
+  const handleListClick = (id) => {
     let newCollapse = new Set(openCollapse);
-    if (!newCollapse.has(id)) {
+    if (newCollapse.has(id)) {
+      newCollapse.delete(id);
+      setOpenCollapse(newCollapse);
+    } else {
       newCollapse.add(id);
       setOpenCollapse(newCollapse);
     }
   };
-
-  const handleListClick = (id) => {
-    let newCollapse = new Set(openCollapse);
-    if (newCollapse.has(id)) newCollapse.delete(id);
-    else newCollapse.add(id);
-    setOpenCollapse(newCollapse);
-  };
-
-  useEffect(() => {
-    if (selectedFunction !== null) {
-      if (
-        selectedFunction.parent !== null &&
-        selectedFunction.parent !== undefined
-      ) {
-        handleOpenCollapseMenu(selectedFunction.parent.id);
-
-        if (
-          selectedFunction.parent.parent !== null &&
-          selectedFunction.parent.parent !== undefined
-        ) {
-          handleOpenCollapseMenu(selectedFunction.parent.parent.id);
-        }
-      }
-    }
-  }, [selectedFunction]);
 
   return (
     <div>
@@ -149,103 +130,64 @@ function SideBar(props) {
 
         <Divider />
 
-        <div className={clsx(classes.menu)}>
-          <ListMenuItem
-            configs={MENU_LIST}
-            openCollapse={openCollapse}
-            menu={props.menu}
-            handleListClick={handleListClick}
-            iconMap={menuIconMap}
-            selectedFunction={selectedFunction}
-          />
-        </div>
+        <List>
+          {props.menu.has("MENU_USER") ? (
+            <div>
+              <ListItem button onClick={() => handleListClick("MENU_USER")}>
+                <ListItemIcon>
+                  <PersonIcon />
+                </ListItemIcon>
+                <ListItemText primary="Account" />
+                {openCollapse.has("MENU_USER") ? (
+                  <ExpandLess />
+                ) : (
+                  <ExpandMore />
+                )}
+              </ListItem>
+              <Collapse
+                in={openCollapse.has("MENU_USER")}
+                timeout="auto"
+                unmountOnExit
+              >
+                <List component="div" disablePadding>
+                  {props.menu.has("MENU_USER_CREATE") ? (
+                    <ListItem
+                      button
+                      className={classes.nested}
+                      component={Link}
+                      to={process.env.PUBLIC_URL + "/userLogin/create"}
+                    >
+                      <ListItemIcon>
+                        <StarBorder />
+                      </ListItemIcon>
+                      <ListItemText primary="Create new user" />
+                    </ListItem>
+                  ) : (
+                    ""
+                  )}
+                  {props.menu.has("MENU_USER_LIST") ? (
+                    <ListItem
+                      button
+                      className={classes.nested}
+                      component={Link}
+                      to={process.env.PUBLIC_URL + "/userLogin/list"}
+                    >
+                      <ListItemIcon>
+                        <StarBorder />
+                      </ListItemIcon>
+                      <ListItemText primary="User list" />
+                    </ListItem>
+                  ) : (
+                    ""
+                  )}
+                </List>
+              </Collapse>
+            </div>
+          ) : (
+            ""
+          )}
+        </List>
       </Drawer>
     </div>
   );
 }
-
-function ListMenuItem(props) {
-  let menuItems = props.configs.map((config) => (
-    <MenuItem
-      config={config}
-      openCollapse={props.openCollapse}
-      menu={props.menu}
-      handleListClick={props.handleListClick}
-      iconMap={props.iconMap}
-      selectedFunction={props.selectedFunction}
-    />
-  ));
-
-  return (
-    <List component="div" disablePadding>
-      {menuItems}
-    </List>
-  );
-}
-
-function MenuItem(props) {
-  let classes = useStyles();
-
-  if (!props.config.isPublic && !props.menu.has(props.config.id)) return "";
-
-  let icon = (
-    <ListItemIcon>{props.iconMap.get(props.config.icon)}</ListItemIcon>
-  );
-  let menu = {};
-  if (
-    props.config.child !== undefined &&
-    props.config.child !== null &&
-    props.config.child.length !== 0
-  ) {
-    menu = (
-      <div>
-        <ListItem button onClick={() => props.handleListClick(props.config.id)}>
-          {icon}
-          <ListItemText primary={props.config.text} />
-          {props.openCollapse.has(props.config.id) ? (
-            <ExpandLess />
-          ) : (
-            <ExpandMore />
-          )}
-        </ListItem>
-        <Collapse
-          in={props.openCollapse.has(props.config.id)}
-          timeout="auto"
-          unmountOnExit
-        >
-          <ListMenuItem
-            iconMap={props.iconMap}
-            configs={props.config.child}
-            openCollapse={props.openCollapse}
-            menu={props.menu}
-            handleListClick={props.handleListClick}
-            selectedFunction={props.selectedFunction}
-          />
-        </Collapse>
-      </div>
-    );
-  } else {
-    menu = (
-      <div>
-        <ListItem
-          button
-          className={classes.nested}
-          component={Link}
-          selected={
-            props.selectedFunction !== null
-              ? props.config.id === props.selectedFunction.id ||
-                props.config.path === props.selectedFunction.path
-              : false
-          }
-          to={process.env.PUBLIC_URL + props.config.path}
-        >
-          {icon}
-          <ListItemText primary={props.config.text} />
-        </ListItem>
-      </div>
-    );
-  }
-  return menu;
-}
-
-export default SideBar;

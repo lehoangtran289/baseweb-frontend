@@ -11,11 +11,22 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountButton from "./AccountButton";
 import SideBar from "./SideBar";
+import Button from "@material-ui/core/Button";
+import { Redirect } from "react-router";
 
-const drawerWidth = 340;
+const drawerWidth = 300;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+  },
+  header: {
+    color: "#FFF",
+  },
+  headerButton: {
+    "&:hover": {
+      backgroundColor: "#3f51b5",
+    },
+    paddingLeft: 0,
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -33,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
     }),
   },
   appBarTitle: {
-    marginLeft: theme.spacing(2),
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -134,9 +144,16 @@ function Layout(props) {
               [classes.appBarTitle]: open,
             })}
           >
-            <Typography variant="h6" noWrap>
-              Basic web infrastructure
-            </Typography>
+            <Button
+              className={classes.headerButton}
+              onClick={() => <Redirect to={"/"} />}
+              disableElevation
+              disableRipple
+            >
+              <Typography className={classes.header} variant="h6" noWrap>
+                Basic web infrastructure
+              </Typography>
+            </Button>
           </div>
           <span className={classes.toolbarButtons}>
             <AccountButton handleLogout={handleLogout} />
