@@ -8,7 +8,7 @@ import Layout from "../layout/Layout";
 import Loading from "./Loading";
 import NotFoundError from "./NotFoundError";
 import PrivateRoute from "./PrivateRoute";
-import Home from "../component/Home";
+import Home from "../component/Home/Home";
 // import UserLoginRoute from "../routers/UserLoginRoute";
 
 const UserLoginRoute = lazy(() => import("../routers/UserLoginRoute"));
