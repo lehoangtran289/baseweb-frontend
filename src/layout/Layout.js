@@ -13,6 +13,7 @@ import AccountButton from "./AccountButton";
 import SideBar from "./SideBar";
 import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router";
+import { useHistory } from "react-router-dom";
 
 const drawerWidth = 300;
 const useStyles = makeStyles((theme) => ({
@@ -97,6 +98,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Layout(props) {
   const { children } = props;
+  const history = useHistory();
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
@@ -146,7 +148,7 @@ function Layout(props) {
           >
             <Button
               className={classes.headerButton}
-              onClick={() => <Redirect to={"/"} />}
+              onClick={() => history.push("/")}
               disableElevation
               disableRipple
             >

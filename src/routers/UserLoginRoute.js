@@ -13,9 +13,9 @@ function UserLoginRoute(props) {
     <div>
       <Switch>
         <Route component={UserList} path={`${path}/list`} />
-        <Route component={UserDetail} path={`${path}/:partyId`} />
         <Route component={UserCreate} path={`${path}/create`} />
         <Route component={UserEdit} path={`${path}/:partyId/edit`} />
+        <Route component={UserDetail} path={`${path}/:partyId`} />
       </Switch>
     </div>
   );
