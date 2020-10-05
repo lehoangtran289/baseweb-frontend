@@ -2,7 +2,6 @@ import React from "react";
 import clsx from "clsx";
 import PropTypes from "prop-types";
 import {
-  Avatar,
   Box,
   Card,
   CardContent,
@@ -12,7 +11,6 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import InsertChartIcon from "@material-ui/icons/InsertChartOutlined";
 
 const useStyles = makeStyles(() => ({
   root: {

@@ -31,7 +31,7 @@ function MainAppRoute(props) {
     <Layout>
       <Suspense fallback={<Loading />}>
         <Switch>
-          <PrivateRoute component={Home} exact path="/" />
+          <Route component={Home} exact path="/" />
 
           <PrivateRoute component={UserLoginRoute} path="/userLogin" />
 
