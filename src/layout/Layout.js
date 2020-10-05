@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { getMenu, logout } from "../action";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
@@ -9,11 +9,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import AccountButton from "./AccountButton";
+import LogoutButton from "./LogoutButton";
 import SideBar from "./SideBar";
 import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router";
 import { useHistory } from "react-router-dom";
+import LoginButton from "./LoginButton";
 
 const drawerWidth = 300;
 const useStyles = makeStyles((theme) => ({
@@ -100,6 +101,7 @@ function Layout(props) {
   const { children } = props;
   const history = useHistory();
   const classes = useStyles();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   const [open, setOpen] = React.useState(false);
 
@@ -117,6 +119,10 @@ function Layout(props) {
 
   const handleLogout = () => {
     props.processLogout();
+  };
+
+  const handleLogin = () => {
+    history.push("/login");
   };
 
   return (
@@ -157,9 +163,15 @@ function Layout(props) {
               </Typography>
             </Button>
           </div>
-          <span className={classes.toolbarButtons}>
-            <AccountButton handleLogout={handleLogout} />
-          </span>
+          {isAuthenticated ? (
+            <span className={classes.toolbarButtons}>
+              <LogoutButton handleLogout={handleLogout} />
+            </span>
+          ) : (
+            <span className={classes.toolbarButtons}>
+              <LoginButton handleLogin={handleLogin} />
+            </span>
+          )}
         </Toolbar>
       </AppBar>
 
