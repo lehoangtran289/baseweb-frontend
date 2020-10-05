@@ -3,10 +3,10 @@ import {
   CardActions,
   CircularProgress,
   FormControl,
-  InputLabel,
-  Select,
   Input,
+  InputLabel,
   MenuItem,
+  Select,
 } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -15,7 +15,7 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { failed } from "../../action";
 import { authGet, authPut } from "../../api";
 import {
@@ -88,14 +88,13 @@ function UserEdit(props) {
         //console.log('getDepartmentList = ',departments);
       });
   }
+
   useEffect(() => {
-    //let lst = authGet(dispatch, token,"/get-security-groups");
-    //console.log(lst);
     getSecurityGroups();
   }, []);
 
   const validateEmail = (email) => {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase());
   };
 
@@ -161,6 +160,7 @@ function UserEdit(props) {
   useEffect(() => {
     authGet(dispatch, token, "/users/" + partyId).then(
       (res) => {
+        console.log(res);
         setFirstName(res.firstName);
         setMiddleName(res.middleName);
         setLastName(res.lastName);
@@ -170,7 +170,9 @@ function UserEdit(props) {
         setRoles(res.roles);
         setEmail(res.email);
       },
-      (error) => {}
+      (error) => {
+        console.log(error);
+      }
     );
   }, []);
 

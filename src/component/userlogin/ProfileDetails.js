@@ -27,7 +27,7 @@ function ProfileDetails({
   partyId,
 }) {
   const classes = useStyles();
-  console.log(data);
+
   return (
     <div>
       <Card>

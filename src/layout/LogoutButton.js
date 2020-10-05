@@ -1,8 +1,7 @@
 import React from "react";
-import IconButton from "@material-ui/core/IconButton";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import { Typography } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   toolbarButtons: {
@@ -14,20 +13,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AccountButton(props) {
+function LogoutButton(props) {
   const classes = useStyles();
 
   return (
     <span className={classes.toolbarButtons}>
-      <Typography variant="subtitle1" className={classes.logout}>
+      <Button
+        variant="contained"
+        color="primary"
+        align="right"
+        className={classes.button}
+        onClick={props.handleLogout}
+        startIcon={<ExitToAppIcon />}
+      >
         Logout
-      </Typography>
-
-      <IconButton color="inherit">
-        <ExitToAppIcon onClick={props.handleLogout} align="right" />
-      </IconButton>
+      </Button>
     </span>
   );
 }
 
-export default AccountButton;
+export default LogoutButton;
