@@ -39,7 +39,7 @@ function UserList(props) {
     <MaterialTable
       title="User List"
       columns={column}
-      options={{ search: true }}
+      options={{ search: true, debounceInterval: 500 }}
       data={(query) =>
         new Promise((resolve, reject) => {
           console.log(query);

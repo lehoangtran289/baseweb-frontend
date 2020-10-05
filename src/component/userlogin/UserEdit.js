@@ -24,10 +24,15 @@ import {
 } from "@material-ui/pickers";
 import { API_URL } from "../../config/config";
 import DateFnsUtils from "@date-io/date-fns";
+import CardHeader from "@material-ui/core/CardHeader";
+import Divider from "@material-ui/core/Divider";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(4),
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(3),
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
       width: 200,
@@ -179,12 +184,14 @@ function UserEdit(props) {
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <Card>
+        <CardHeader
+          subheader="Edit the information below"
+          title={`Edit User: ${userName}`}
+        />
+        <Divider />
         <CardContent>
-          <Typography variant="h5" component="h2" align="left">
-            Edit User {userName}
-          </Typography>
-          <form className={classes.root} noValidate autoComplete="off">
-            <div>
+          <Grid container spacing={3} className={classes.root}>
+            <Grid item>
               <TextField
                 id="partyCode"
                 label="Party Code"
@@ -195,6 +202,8 @@ function UserEdit(props) {
                   shrink: true,
                 }}
               />
+            </Grid>
+            <Grid item>
               <TextField
                 id="firstName"
                 label="First Name"
@@ -205,6 +214,8 @@ function UserEdit(props) {
                   shrink: true,
                 }}
               />
+            </Grid>
+            <Grid item>
               <TextField
                 id="middleName"
                 label="Middle Name"
@@ -214,6 +225,8 @@ function UserEdit(props) {
                   shrink: true,
                 }}
               />
+            </Grid>
+            <Grid item>
               <TextField
                 id="lastName"
                 label="LastName"
@@ -223,6 +236,8 @@ function UserEdit(props) {
                   shrink: true,
                 }}
               />
+            </Grid>
+            <Grid item>
               <TextField
                 id="email"
                 label="Email"
@@ -234,6 +249,8 @@ function UserEdit(props) {
                   shrink: true,
                 }}
               />
+            </Grid>
+            <Grid item>
               <KeyboardDatePicker
                 disableToolbar
                 variant="inline"
@@ -247,6 +264,8 @@ function UserEdit(props) {
                   "aria-label": "change date",
                 }}
               />
+            </Grid>
+            <Grid item>
               <FormControl className={classes.formControl}>
                 <InputLabel id="role-label">Role</InputLabel>
                 <Select
@@ -265,10 +284,98 @@ function UserEdit(props) {
                   ))}
                 </Select>
               </FormControl>
-            </div>
-          </form>
+            </Grid>
+          </Grid>
+
+          {/*-----*/}
+
+          {/*<form className={classes.root} noValidate autoComplete="off">*/}
+          {/*  <div>*/}
+          {/*    <TextField*/}
+          {/*      id="partyCode"*/}
+          {/*      label="Party Code"*/}
+          {/*      value={partyCode}*/}
+          {/*      variant="outlined"*/}
+          {/*      onChange={handlePartyCodeChange}*/}
+          {/*      InputLabelProps={{*/}
+          {/*        shrink: true,*/}
+          {/*      }}*/}
+          {/*    />*/}
+          {/*    <TextField*/}
+          {/*      id="firstName"*/}
+          {/*      label="First Name"*/}
+          {/*      value={firstName}*/}
+          {/*      variant="outlined"*/}
+          {/*      onChange={handleFirstNameChange}*/}
+          {/*      InputLabelProps={{*/}
+          {/*        shrink: true,*/}
+          {/*      }}*/}
+          {/*    />*/}
+          {/*    <TextField*/}
+          {/*      id="middleName"*/}
+          {/*      label="Middle Name"*/}
+          {/*      value={middleName}*/}
+          {/*      onChange={handleMiddleNameChange}*/}
+          {/*      InputLabelProps={{*/}
+          {/*        shrink: true,*/}
+          {/*      }}*/}
+          {/*    />*/}
+          {/*    <TextField*/}
+          {/*      id="lastName"*/}
+          {/*      label="LastName"*/}
+          {/*      value={lastName}*/}
+          {/*      onChange={handleLastNameChange}*/}
+          {/*      InputLabelProps={{*/}
+          {/*        shrink: true,*/}
+          {/*      }}*/}
+          {/*    />*/}
+          {/*    <TextField*/}
+          {/*      id="email"*/}
+          {/*      label="Email"*/}
+          {/*      error={!validateEmail(email)}*/}
+          {/*      helperText={validateEmail(email) ? "" : "Invalid"}*/}
+          {/*      value={email}*/}
+          {/*      onChange={handleEmailChange}*/}
+          {/*      InputLabelProps={{*/}
+          {/*        shrink: true,*/}
+          {/*      }}*/}
+          {/*    />*/}
+          {/*    <KeyboardDatePicker*/}
+          {/*      disableToolbar*/}
+          {/*      variant="inline"*/}
+          {/*      format="MM/dd/yyyy"*/}
+          {/*      margin="normal"*/}
+          {/*      id="birthDate"*/}
+          {/*      label="Date of birth"*/}
+          {/*      value={birthDate}*/}
+          {/*      onChange={handleBirthDateChange}*/}
+          {/*      KeyboardButtonProps={{*/}
+          {/*        "aria-label": "change date",*/}
+          {/*      }}*/}
+          {/*    />*/}
+          {/*    <FormControl className={classes.formControl}>*/}
+          {/*      <InputLabel id="role-label">Role</InputLabel>*/}
+          {/*      <Select*/}
+          {/*        labelId="role-label"*/}
+          {/*        id="demo-mutiple-name"*/}
+          {/*        multiple*/}
+          {/*        value={roles}*/}
+          {/*        onChange={handleRoleChange}*/}
+          {/*        input={<Input />}*/}
+          {/*        MenuProps={MenuProps}*/}
+          {/*      >*/}
+          {/*        {securityGroups.map((s) => (*/}
+          {/*          <MenuItem key={s.groupId} value={s.groupId}>*/}
+          {/*            {s.description}*/}
+          {/*          </MenuItem>*/}
+          {/*        ))}*/}
+          {/*      </Select>*/}
+          {/*    </FormControl>*/}
+          {/*  </div>*/}
+          {/*</form>*/}
         </CardContent>
-        <CardActions>
+        <Divider />
+        <Box display="flex" justifyContent="flex-start" p={2}>
           <Button
             disabled={isRequesting}
             variant="contained"
@@ -277,7 +384,18 @@ function UserEdit(props) {
           >
             {isRequesting ? <CircularProgress /> : "Save"}
           </Button>
-        </CardActions>
+        </Box>
+
+        {/*<CardActions>*/}
+        {/*  <Button*/}
+        {/*    disabled={isRequesting}*/}
+        {/*    variant="contained"*/}
+        {/*    color="primary"*/}
+        {/*    onClick={handleSubmit}*/}
+        {/*  >*/}
+        {/*    {isRequesting ? <CircularProgress /> : "Save"}*/}
+        {/*  </Button>*/}
+        {/*</CardActions>*/}
       </Card>
     </MuiPickersUtilsProvider>
   );
