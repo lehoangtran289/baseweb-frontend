@@ -1,6 +1,5 @@
 import {
   Button,
-  CardActions,
   CircularProgress,
   FormControl,
   Input,
@@ -12,7 +11,6 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
@@ -28,6 +26,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
+import SaveIcon from "@material-ui/icons/Save";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,8 +68,6 @@ function UserEdit(props) {
   const [middleName, setMiddleName] = useState();
   const [firstName, setFirstName] = useState();
   const [userName, setUserName] = useState();
-  const [password, setPassword] = useState();
-  const [gender, setGender] = useState();
   const [partyCode, setPartyCode] = useState();
   const [roles, setRoles] = useState([]);
   const [birthDate, setBirthDate] = useState(new Date());
@@ -115,12 +112,6 @@ function UserEdit(props) {
   const handleFirstNameChange = (event) => {
     setFirstName(event.target.value);
   };
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-  const handleGenderChange = (event) => {
-    setGender(event.target.value);
-  };
   const handlePartyCodeChange = (event) => {
     setPartyCode(event.target.value);
   };
@@ -142,7 +133,7 @@ function UserEdit(props) {
       email: email,
     };
     setIsRequesting(true);
-    authPut(dispatch, token, "/user/" + partyId, data)
+    authPut(dispatch, token, "/users/" + partyId, data)
       .then(
         (res) => {
           setIsRequesting(false);
@@ -286,93 +277,6 @@ function UserEdit(props) {
               </FormControl>
             </Grid>
           </Grid>
-
-          {/*-----*/}
-
-          {/*<form className={classes.root} noValidate autoComplete="off">*/}
-          {/*  <div>*/}
-          {/*    <TextField*/}
-          {/*      id="partyCode"*/}
-          {/*      label="Party Code"*/}
-          {/*      value={partyCode}*/}
-          {/*      variant="outlined"*/}
-          {/*      onChange={handlePartyCodeChange}*/}
-          {/*      InputLabelProps={{*/}
-          {/*        shrink: true,*/}
-          {/*      }}*/}
-          {/*    />*/}
-          {/*    <TextField*/}
-          {/*      id="firstName"*/}
-          {/*      label="First Name"*/}
-          {/*      value={firstName}*/}
-          {/*      variant="outlined"*/}
-          {/*      onChange={handleFirstNameChange}*/}
-          {/*      InputLabelProps={{*/}
-          {/*        shrink: true,*/}
-          {/*      }}*/}
-          {/*    />*/}
-          {/*    <TextField*/}
-          {/*      id="middleName"*/}
-          {/*      label="Middle Name"*/}
-          {/*      value={middleName}*/}
-          {/*      onChange={handleMiddleNameChange}*/}
-          {/*      InputLabelProps={{*/}
-          {/*        shrink: true,*/}
-          {/*      }}*/}
-          {/*    />*/}
-          {/*    <TextField*/}
-          {/*      id="lastName"*/}
-          {/*      label="LastName"*/}
-          {/*      value={lastName}*/}
-          {/*      onChange={handleLastNameChange}*/}
-          {/*      InputLabelProps={{*/}
-          {/*        shrink: true,*/}
-          {/*      }}*/}
-          {/*    />*/}
-          {/*    <TextField*/}
-          {/*      id="email"*/}
-          {/*      label="Email"*/}
-          {/*      error={!validateEmail(email)}*/}
-          {/*      helperText={validateEmail(email) ? "" : "Invalid"}*/}
-          {/*      value={email}*/}
-          {/*      onChange={handleEmailChange}*/}
-          {/*      InputLabelProps={{*/}
-          {/*        shrink: true,*/}
-          {/*      }}*/}
-          {/*    />*/}
-          {/*    <KeyboardDatePicker*/}
-          {/*      disableToolbar*/}
-          {/*      variant="inline"*/}
-          {/*      format="MM/dd/yyyy"*/}
-          {/*      margin="normal"*/}
-          {/*      id="birthDate"*/}
-          {/*      label="Date of birth"*/}
-          {/*      value={birthDate}*/}
-          {/*      onChange={handleBirthDateChange}*/}
-          {/*      KeyboardButtonProps={{*/}
-          {/*        "aria-label": "change date",*/}
-          {/*      }}*/}
-          {/*    />*/}
-          {/*    <FormControl className={classes.formControl}>*/}
-          {/*      <InputLabel id="role-label">Role</InputLabel>*/}
-          {/*      <Select*/}
-          {/*        labelId="role-label"*/}
-          {/*        id="demo-mutiple-name"*/}
-          {/*        multiple*/}
-          {/*        value={roles}*/}
-          {/*        onChange={handleRoleChange}*/}
-          {/*        input={<Input />}*/}
-          {/*        MenuProps={MenuProps}*/}
-          {/*      >*/}
-          {/*        {securityGroups.map((s) => (*/}
-          {/*          <MenuItem key={s.groupId} value={s.groupId}>*/}
-          {/*            {s.description}*/}
-          {/*          </MenuItem>*/}
-          {/*        ))}*/}
-          {/*      </Select>*/}
-          {/*    </FormControl>*/}
-          {/*  </div>*/}
-          {/*</form>*/}
         </CardContent>
         <Divider />
         <Box display="flex" justifyContent="flex-start" p={2}>
@@ -381,21 +285,11 @@ function UserEdit(props) {
             variant="contained"
             color="primary"
             onClick={handleSubmit}
+            startIcon={<SaveIcon />}
           >
             {isRequesting ? <CircularProgress /> : "Save"}
           </Button>
         </Box>
-
-        {/*<CardActions>*/}
-        {/*  <Button*/}
-        {/*    disabled={isRequesting}*/}
-        {/*    variant="contained"*/}
-        {/*    color="primary"*/}
-        {/*    onClick={handleSubmit}*/}
-        {/*  >*/}
-        {/*    {isRequesting ? <CircularProgress /> : "Save"}*/}
-        {/*  </Button>*/}
-        {/*</CardActions>*/}
       </Card>
     </MuiPickersUtilsProvider>
   );
