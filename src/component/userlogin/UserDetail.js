@@ -52,7 +52,7 @@ function UserDetail(props) {
         setData([]);
       }
     );
-  }, []);
+  }, [partyId]);
 
   const handlePopup = (value) => {
     setOpenPopup(value);

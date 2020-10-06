@@ -4,7 +4,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Divider from "@material-ui/core/Divider";
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { authGet } from "../api";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -38,6 +38,7 @@ function AccountButton(props) {
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
 
+  const [redirect, setRedirect] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [name, setName] = useState("");
   const [userName, setUserName] = useState("");
@@ -68,7 +69,7 @@ function AccountButton(props) {
 
   const handleViewAccount = () => {
     handleClose();
-    history.push("/userlogin/" + partyId);
+    history.push(`/userLogin/${partyId}`);
   };
 
   return (
