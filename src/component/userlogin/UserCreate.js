@@ -33,15 +33,9 @@ import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    paddingTop: theme.spacing(3),
-    paddingBottom: theme.spacing(3),
-    "& .MuiTextField-root": {
-      margin: theme.spacing(1),
-      width: 200,
-    },
+    flexGrow: 1,
   },
   formControl: {
-    margin: theme.spacing(1),
     minWidth: 120,
     maxWidth: 300,
   },
@@ -51,6 +45,9 @@ const useStyles = makeStyles((theme) => ({
   },
   chip: {
     margin: 2,
+  },
+  content: {
+    marginBottom: theme.spacing(3),
   },
 }));
 
@@ -145,155 +142,187 @@ function UserCreate(props) {
           title={`Create new user`}
         />
         <Divider />
-        <CardContent>
+        <CardContent className={classes.content}>
           <Grid container spacing={3} className={classes.root}>
-            <TextField
-              id="firstName"
-              name="firstName"
-              label="First Name"
-              error={props.errors.firstName}
-              helperText={props.errors.firstName}
-              value={props.values.firstName}
-              onChange={props.handleChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <TextField
-              id="middleName"
-              name="middleName"
-              label="Middle Name"
-              error={props.errors.middleName}
-              helperText={props.errors.middleName}
-              value={props.values.middleName}
-              onChange={props.handleChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <TextField
-              id="lastName"
-              name="lastName"
-              label="LastName"
-              error={props.errors.lastName}
-              helperText={props.errors.lastName}
-              value={props.values.lastName}
-              onChange={props.handleChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <TextField
-              id="userName"
-              name="userName"
-              label="Username"
-              error={props.errors.userName}
-              helperText={props.errors.userName}
-              value={props.values.userName}
-              onChange={props.handleChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <TextField
-              id="email"
-              name="email"
-              label="Email"
-              error={props.errors.email}
-              helperText={props.errors.email}
-              value={props.values.email}
-              onChange={props.handleChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <KeyboardDatePicker
-              disableToolbar
-              variant="inline"
-              format="MM/dd/yyyy"
-              margin="normal"
-              id="birthDate"
-              name="birthDate"
-              label="Date of birth"
-              error={props.errors.birthDate}
-              helperText={props.errors.birthDate}
-              value={props.values.birthDate}
-              onChange={(val) => props.setFieldValue("birthDate", val)}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
-            />
-            <TextField
-              fullWidth
-              label="Password"
-              margin="normal"
-              name="password"
-              error={props.errors.password}
-              helperText={props.errors.password}
-              onChange={props.handleChange}
-              type="password"
-              value={props.values.password}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <TextField
-              id="select-gender"
-              name="gender"
-              select
-              label="Gender"
-              error={props.errors.gender}
-              helperText={props.errors.gender}
-              value={props.values.gender}
-              onChange={props.handleChange}
-            >
-              <MenuItem key="male" value="M">
-                Male
-              </MenuItem>
-              <MenuItem key="female" value="F">
-                Female
-              </MenuItem>
-            </TextField>
-            <FormControl className={classes.formControl}>
-              <InputLabel id="role-label">Role(s)</InputLabel>
-              <Select
-                labelId="role-label"
-                id="role-id"
-                multiple
-                value={props.values.roles}
+            <Grid item xs={4} alignContent="stretch">
+              <TextField
+                id="firstName"
+                name="firstName"
+                label="First Name"
+                fullWidth
+                margin="dense"
+                error={!!props.errors.firstName}
+                helperText={props.errors.firstName}
+                value={props.values.firstName}
                 onChange={props.handleChange}
-                input={
-                  <Input
-                    name="roles"
-                    id="select-role(s)"
-                    error={props.errors.roles}
-                    helperText={props.errors.roles}
-                  />
-                }
-                renderValue={(selected) => (
-                  <div className={classes.chips}>
-                    {selected.map((value) => (
-                      <Chip
-                        key={value}
-                        label={value}
-                        className={classes.chip}
-                      />
-                    ))}
-                  </div>
-                )}
-                MenuProps={MenuProps}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                id="middleName"
+                name="middleName"
+                label="Middle Name"
+                fullWidth
+                margin="dense"
+                value={props.values.middleName}
+                onChange={props.handleChange}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                id="lastName"
+                name="lastName"
+                label="LastName"
+                fullWidth
+                margin="dense"
+                value={props.values.lastName}
+                onChange={props.handleChange}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                id="userName"
+                name="userName"
+                label="Username"
+                fullWidth
+                margin="dense"
+                error={!!props.errors.userName}
+                helperText={props.errors.userName}
+                value={props.values.userName}
+                onChange={props.handleChange}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                id="email"
+                name="email"
+                label="Email"
+                fullWidth
+                margin="dense"
+                error={!!props.errors.email}
+                helperText={props.errors.email}
+                value={props.values.email}
+                onChange={props.handleChange}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Password"
+                margin="dense"
+                name="password"
+                error={!!props.errors.password}
+                helperText={props.errors.password}
+                onChange={props.handleChange}
+                type="password"
+                value={props.values.password}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={4}>
+              <TextField
+                id="select-gender"
+                name="gender"
+                select
+                fullWidth
+                label="Gender"
+                error={!!props.errors.gender}
+                helperText={props.errors.gender}
+                value={props.values.gender}
+                onChange={props.handleChange}
               >
-                {securityGroups.map((item) => (
-                  <MenuItem
-                    key={item.groupId}
-                    value={item.groupId}
-                    style={getStyles(item, props.values.roles, theme)}
-                  >
-                    {item.groupId}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                <MenuItem key="male" value="M">
+                  Male
+                </MenuItem>
+                <MenuItem key="female" value="F">
+                  Female
+                </MenuItem>
+              </TextField>
+            </Grid>
+
+            <Grid item xs={4}>
+              <KeyboardDatePicker
+                disableToolbar
+                variant="inline"
+                format="MM/dd/yyyy"
+                margin="dense"
+                id="birthDate"
+                name="birthDate"
+                label="Date of birth"
+                error={!!props.errors.birthDate}
+                helperText={props.errors.birthDate}
+                value={props.values.birthDate}
+                onChange={(val) => props.setFieldValue("birthDate", val)}
+                KeyboardButtonProps={{
+                  "aria-label": "change date",
+                }}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormControl className={classes.formControl}>
+                <InputLabel id="role-label">Role(s)</InputLabel>
+                <Select
+                  labelId="role-label"
+                  id="role-id"
+                  multiple
+                  autoWidth
+                  value={props.values.roles}
+                  onChange={props.handleChange}
+                  input={
+                    <Input
+                      name="roles"
+                      id="select-role(s)"
+                      error={!!props.errors.roles}
+                      helperText={props.errors.roles}
+                    />
+                  }
+                  renderValue={(selected) => (
+                    <div className={classes.chips}>
+                      {selected.map((value) => (
+                        <Chip
+                          key={value}
+                          label={value}
+                          className={classes.chip}
+                        />
+                      ))}
+                    </div>
+                  )}
+                  MenuProps={MenuProps}
+                >
+                  {securityGroups.map((item) => (
+                    <MenuItem
+                      key={item.groupId}
+                      value={item.groupId}
+                      style={getStyles(item, props.values.roles, theme)}
+                    >
+                      {item.groupId}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
           </Grid>
         </CardContent>
         <Divider />
@@ -337,7 +366,7 @@ const UserCreateForm = withFormik({
     firstName: Yup.string().required("FirstName is required"),
     gender: Yup.string().required("Gender is required"),
     roles: Yup.array().required("Role(s) is empty"),
-    birthDate: Yup.date().max(new Date()).required(),
+    birthDate: Yup.date().max(new Date(), "birthDate is invalid").required(),
   }),
 })(UserCreate);
 

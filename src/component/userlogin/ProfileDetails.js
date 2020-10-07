@@ -155,7 +155,7 @@ function ProfileDetails({
             <Button
               variant="contained"
               color="primary"
-              onClick={() => handlePopup(true)}
+              onClick={handlePopup}
               startIcon={<DeleteIcon />}
             >
               Delete
