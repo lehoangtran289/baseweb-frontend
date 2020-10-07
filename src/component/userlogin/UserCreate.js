@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import DateFnsUtils from "@date-io/date-fns";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -24,7 +23,13 @@ import {
 } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import SaveIcon from "@material-ui/icons/Save";
-import { authGet } from "../../api";
+import { authGet, authPost } from "../../api";
+import Chip from "@material-ui/core/Chip";
+import { withFormik } from "formik";
+import * as Yup from "yup";
+import { failed } from "../../action";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,6 +45,13 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 120,
     maxWidth: 300,
   },
+  chips: {
+    display: "flex",
+    flexWrap: "wrap",
+  },
+  chip: {
+    margin: 2,
+  },
 }));
 
 const ITEM_HEIGHT = 48;
@@ -54,65 +66,76 @@ const MenuProps = {
   },
 };
 
+function getStyles(name, personName, theme) {
+  return {
+    fontWeight:
+      personName.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+}
+
 function UserCreate(props) {
   const classes = useStyles();
+  const theme = useTheme();
+  const history = useHistory();
+
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const [isRequesting, setIsRequesting] = useState(false);
   const [securityGroups, setSecurityGroups] = useState([]);
 
-  const [firstName, setFirstName] = useState();
-  const [middleName, setMiddleName] = useState();
-  const [lastName, setLastName] = useState();
-  const [birthDate, setBirthDate] = useState(new Date());
-  const [userName, setUserName] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [gender, setGender] = useState();
-  const [roles, setRoles] = useState([]);
-
   useEffect(() => {
     authGet(dispatch, token, "/get-security-groups").then((res) => {
-      setSecurityGroups(res.map((item) => item.groupId));
+      setSecurityGroups(res);
     });
   }, []);
 
-  const validateEmail = (email) => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
-  };
+  const handleSubmit = () => {
+    const data = {
+      userName: props.values.userName,
+      password: props.values.password,
+      email: props.values.email,
+      roles: props.values.roles,
+      firstName: props.values.firstName,
+      lastName: props.values.lastName,
+      middleName: props.values.middleName,
+      gender: props.values.gender,
+      birthDate: props.values.birthDate,
+      partyCode: "",
+    };
+    console.log(data);
 
-  const handleLastNameChange = (event) => {
-    setLastName(event.target.value);
+    setIsRequesting(true);
+    authPost(dispatch, token, "/users", data)
+      .then(
+        (res) => {
+          console.log(res);
+          setIsRequesting(false);
+          if (res.status === 401) {
+            dispatch(failed());
+            throw Error("Unauthorized");
+          } else if (res.status === 409) {
+            toast.error("Username or Email already exist", {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            });
+          } else if (res.status === 201) {
+            return res.json();
+          }
+        },
+        (error) => console.log(error)
+      )
+      .then((res) => {
+        history.push("/userLogin/" + res);
+      });
   };
-  const handleMiddleNameChange = (event) => {
-    setMiddleName(event.target.value);
-  };
-  const handleFirstNameChange = (event) => {
-    setFirstName(event.target.value);
-  };
-  const handleUserNameChange = (event) => {
-    setUserName(event.target.value);
-  };
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-  const handleGenderChange = (event) => {
-    setGender(event.target.value);
-  };
-  const handleBirthDateChange = (date) => {
-    setBirthDate(date);
-  };
-  const handleRoleChange = (event) => {
-    setRoles(event.target.value);
-  };
-
-  const handleSubmit = () => {};
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -124,131 +147,153 @@ function UserCreate(props) {
         <Divider />
         <CardContent>
           <Grid container spacing={3} className={classes.root}>
-            <Grid item>
-              <TextField
-                id="firstName"
-                label="First Name"
-                value={firstName}
-                variant="outlined"
-                onChange={handleFirstNameChange}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                id="middleName"
-                label="Middle Name"
-                value={middleName}
-                onChange={handleMiddleNameChange}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                id="lastName"
-                label="LastName"
-                value={lastName}
-                onChange={handleLastNameChange}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                id="userName"
-                label="Username"
-                value={userName}
-                onChange={handleUserNameChange}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                id="email"
-                label="Email"
-                error={!validateEmail(email)}
-                helperText={validateEmail(email) ? "" : "Invalid"}
-                value={email}
-                onChange={handleEmailChange}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <KeyboardDatePicker
-                disableToolbar
-                variant="inline"
-                format="MM/dd/yyyy"
-                margin="normal"
-                id="birthDate"
-                label="Date of birth"
-                value={birthDate}
-                onChange={handleBirthDateChange}
-                KeyboardButtonProps={{
-                  "aria-label": "change date",
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                fullWidth
-                label="Password"
-                margin="normal"
-                name="Password"
-                onChange={handlePasswordChange}
-                type="password"
-                value={password}
-                variant="outlined"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                id="select-gender"
-                select
-                label="Gender"
-                value={gender}
-                onChange={handleGenderChange}
-                helperText="Select your gender"
+            <TextField
+              id="firstName"
+              name="firstName"
+              label="First Name"
+              error={props.errors.firstName}
+              helperText={props.errors.firstName}
+              value={props.values.firstName}
+              onChange={props.handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              id="middleName"
+              name="middleName"
+              label="Middle Name"
+              error={props.errors.middleName}
+              helperText={props.errors.middleName}
+              value={props.values.middleName}
+              onChange={props.handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              id="lastName"
+              name="lastName"
+              label="LastName"
+              error={props.errors.lastName}
+              helperText={props.errors.lastName}
+              value={props.values.lastName}
+              onChange={props.handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              id="userName"
+              name="userName"
+              label="Username"
+              error={props.errors.userName}
+              helperText={props.errors.userName}
+              value={props.values.userName}
+              onChange={props.handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              id="email"
+              name="email"
+              label="Email"
+              error={props.errors.email}
+              helperText={props.errors.email}
+              value={props.values.email}
+              onChange={props.handleChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              format="MM/dd/yyyy"
+              margin="normal"
+              id="birthDate"
+              name="birthDate"
+              label="Date of birth"
+              error={props.errors.birthDate}
+              helperText={props.errors.birthDate}
+              value={props.values.birthDate}
+              onChange={(val) => props.setFieldValue("birthDate", val)}
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
+            />
+            <TextField
+              fullWidth
+              label="Password"
+              margin="normal"
+              name="password"
+              error={props.errors.password}
+              helperText={props.errors.password}
+              onChange={props.handleChange}
+              type="password"
+              value={props.values.password}
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <TextField
+              id="select-gender"
+              name="gender"
+              select
+              label="Gender"
+              error={props.errors.gender}
+              helperText={props.errors.gender}
+              value={props.values.gender}
+              onChange={props.handleChange}
+            >
+              <MenuItem key="male" value="M">
+                Male
+              </MenuItem>
+              <MenuItem key="female" value="F">
+                Female
+              </MenuItem>
+            </TextField>
+            <FormControl className={classes.formControl}>
+              <InputLabel id="role-label">Role(s)</InputLabel>
+              <Select
+                labelId="role-label"
+                id="role-id"
+                multiple
+                value={props.values.roles}
+                onChange={props.handleChange}
+                input={
+                  <Input
+                    name="roles"
+                    id="select-role(s)"
+                    error={props.errors.roles}
+                    helperText={props.errors.roles}
+                  />
+                }
+                renderValue={(selected) => (
+                  <div className={classes.chips}>
+                    {selected.map((value) => (
+                      <Chip
+                        key={value}
+                        label={value}
+                        className={classes.chip}
+                      />
+                    ))}
+                  </div>
+                )}
+                MenuProps={MenuProps}
               >
-                <MenuItem key="male" value="M">
-                  Male
-                </MenuItem>
-                <MenuItem key="female" value="F">
-                  Female
-                </MenuItem>
-              </TextField>
-            </Grid>
-            <Grid item>
-              <FormControl className={classes.formControl}>
-                <InputLabel id="role-label">Role</InputLabel>
-                <Select
-                  labelId="role-label"
-                  id="demo-mutiple-name"
-                  multiple
-                  value={roles}
-                  onChange={handleRoleChange}
-                  input={<Input />}
-                  MenuProps={MenuProps}
-                >
-                  {securityGroups.map((s) => (
-                    <MenuItem key={s} value={s}>
-                      {s}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
+                {securityGroups.map((item) => (
+                  <MenuItem
+                    key={item.groupId}
+                    value={item.groupId}
+                    style={getStyles(item, props.values.roles, theme)}
+                  >
+                    {item.groupId}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
         </CardContent>
         <Divider />
@@ -268,4 +313,32 @@ function UserCreate(props) {
   );
 }
 
-export default UserCreate;
+const UserCreateForm = withFormik({
+  mapPropsToValues() {
+    return {
+      userName: "",
+      password: "",
+      email: "",
+      roles: [],
+      firstName: "",
+      lastName: "",
+      middleName: "",
+      gender: "",
+      birthDate: new Date(),
+      partyCode: "",
+    };
+  },
+  validationSchema: Yup.object().shape({
+    userName: Yup.string().required("Username is required"),
+    password: Yup.string().required("Password is required"),
+    email: Yup.string()
+      .required("Email is required")
+      .email("Email is invalid!"),
+    firstName: Yup.string().required("FirstName is required"),
+    gender: Yup.string().required("Gender is required"),
+    roles: Yup.array().required("Role(s) is empty"),
+    birthDate: Yup.date().max(new Date()).required(),
+  }),
+})(UserCreate);
+
+export default UserCreateForm;
