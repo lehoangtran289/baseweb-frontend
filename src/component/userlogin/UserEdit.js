@@ -27,6 +27,7 @@ import Divider from "@material-ui/core/Divider";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import SaveIcon from "@material-ui/icons/Save";
+import UserChangePassword from "./UserChangePassword";
 
 const useStyles = makeStyles((theme) => ({
   root: {

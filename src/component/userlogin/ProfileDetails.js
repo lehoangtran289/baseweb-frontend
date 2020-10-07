@@ -120,15 +120,34 @@ function ProfileDetails({
         <Divider />
         <Box display="flex" justifyContent="flex-start" p={2}>
           {canEdit ? (
-            <Button
-              color="primary"
-              variant="outlined"
-              className={classes.editButton}
-              onClick={() => history.push("/userLogin/" + partyId + "/edit")}
-              startIcon={<EditIcon />}
-            >
-              Edit
-            </Button>
+            <>
+              <span>
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  className={classes.editButton}
+                  onClick={() =>
+                    history.push("/userLogin/" + partyId + "/edit")
+                  }
+                  startIcon={<EditIcon />}
+                >
+                  Edit
+                </Button>
+              </span>
+              <span>
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  className={classes.editButton}
+                  onClick={() =>
+                    history.push("/userLogin/" + partyId + "/change-password")
+                  }
+                  startIcon={<EditIcon />}
+                >
+                  Password
+                </Button>
+              </span>
+            </>
           ) : (
             ""
           )}
