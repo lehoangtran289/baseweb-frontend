@@ -1,20 +1,27 @@
 import React from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import TextField from "@material-ui/core/TextField";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import CardHeader from "@material-ui/core/CardHeader";
+import Divider from "@material-ui/core/Divider";
+import Grid from "@material-ui/core/Grid";
+import Box from "@material-ui/core/Box";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: theme.spacing(4),
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(3),
     "& .MuiTextField-root": {
       margin: theme.spacing(1),
       width: 200,
     },
+  },
+  editButton: {
+    marginRight: theme.spacing(1),
   },
 }));
 
@@ -31,36 +38,18 @@ function ProfileDetails({
   return (
     <div>
       <Card>
+        <CardHeader
+          subheader={
+            canEdit
+              ? "The information can be edited"
+              : "The information is read-only"
+          }
+          title={`Detail User: ${data.userLoginId}`}
+        />
+        <Divider />
         <CardContent>
-          <Typography variant="h5" component="h2" align="left">
-            Detail User: {data.userLoginId}
-            {canDelete ? (
-              <IconButton
-                style={{ float: "right" }}
-                onClick={() => handlePopup(true)}
-                aria-label="Delete"
-                component="span"
-              >
-                <DeleteIcon color="error" />
-              </IconButton>
-            ) : (
-              ""
-            )}
-            {canEdit ? (
-              <IconButton
-                style={{ float: "right" }}
-                onClick={() => history.push("/userLogin/" + partyId + "/edit")}
-                aria-label="Edit"
-                component="span"
-              >
-                <EditIcon color="action" />
-              </IconButton>
-            ) : (
-              ""
-            )}
-          </Typography>
-          <form className={classes.root} noValidate autoComplete="off">
-            <div>
+          <Grid container spacing={3} className={classes.root}>
+            <Grid item>
               <TextField
                 id="firstName"
                 label="First Name"
@@ -73,6 +62,8 @@ function ProfileDetails({
                   shrink: true,
                 }}
               />
+            </Grid>
+            <Grid item>
               <TextField
                 id="middleName"
                 label="Middle Name"
@@ -84,6 +75,8 @@ function ProfileDetails({
                   readOnly: true,
                 }}
               />
+            </Grid>
+            <Grid item>
               <TextField
                 id="lastName"
                 label="LastName"
@@ -95,6 +88,8 @@ function ProfileDetails({
                   readOnly: true,
                 }}
               />
+            </Grid>
+            <Grid item>
               <TextField
                 id="birthDate"
                 label="Birth Date"
@@ -106,6 +101,8 @@ function ProfileDetails({
                   readOnly: true,
                 }}
               />
+            </Grid>
+            <Grid item>
               <TextField
                 id="userLoginId"
                 label="UserName"
@@ -117,9 +114,56 @@ function ProfileDetails({
                   readOnly: true,
                 }}
               />
-            </div>
-          </form>
+            </Grid>
+          </Grid>
         </CardContent>
+        <Divider />
+        <Box display="flex" justifyContent="flex-start" p={2}>
+          {canEdit ? (
+            <>
+              <span>
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  className={classes.editButton}
+                  onClick={() =>
+                    history.push("/userLogin/" + partyId + "/edit")
+                  }
+                  startIcon={<EditIcon />}
+                >
+                  Edit
+                </Button>
+              </span>
+              <span>
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  className={classes.editButton}
+                  onClick={() =>
+                    history.push("/userLogin/" + partyId + "/change-password")
+                  }
+                  startIcon={<EditIcon />}
+                >
+                  Password
+                </Button>
+              </span>
+            </>
+          ) : (
+            ""
+          )}
+          {canDelete ? (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handlePopup(true)}
+              startIcon={<DeleteIcon />}
+            >
+              Delete
+            </Button>
+          ) : (
+            ""
+          )}
+        </Box>
       </Card>
     </div>
   );

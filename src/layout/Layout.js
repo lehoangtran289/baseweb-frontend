@@ -12,8 +12,8 @@ import MenuIcon from "@material-ui/icons/Menu";
 import LogoutButton from "./LogoutButton";
 import SideBar from "./SideBar";
 import Button from "@material-ui/core/Button";
-import { Redirect } from "react-router";
 import { useHistory } from "react-router-dom";
+import AccountButton from "./AccountButton";
 import LoginButton from "./LoginButton";
 
 const drawerWidth = 300;
@@ -165,7 +165,8 @@ function Layout(props) {
           </div>
           {isAuthenticated ? (
             <span className={classes.toolbarButtons}>
-              <LogoutButton handleLogout={handleLogout} />
+              <AccountButton handleLogout={handleLogout} />
+              {/*<LogoutButton handleLogout={handleLogout} />*/}
             </span>
           ) : (
             <span className={classes.toolbarButtons}>
@@ -181,11 +182,7 @@ function Layout(props) {
         menu={props.menu}
       />
 
-      <main
-        className={clsx(classes.content1, {
-          // [classes.contentShift]: open,
-        })}
-      >
+      <main className={clsx(classes.content1, {})}>
         <div className={classes.toolbar} />
         {children}
       </main>

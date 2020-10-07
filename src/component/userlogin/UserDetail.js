@@ -40,6 +40,7 @@ function UserDetail(props) {
   useEffect(() => {
     authGet(dispatch, token, "/users/" + partyId).then(
       (res) => {
+        console.log(res);
         res.birthDate = res.birthDate.substring(0, res.birthDate.indexOf("T"));
         setData(res);
         if (res._links !== undefined) {
@@ -51,7 +52,7 @@ function UserDetail(props) {
         setData([]);
       }
     );
-  }, []);
+  }, [partyId]);
 
   const handlePopup = (value) => {
     setOpenPopup(value);

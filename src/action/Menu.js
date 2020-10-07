@@ -12,12 +12,12 @@ export const getMenu = () => {
     dispatch(menuRequesting());
     api.getMenu(dispatch, getState().auth.token, "/menu").then(
       (data) => {
-        console.log(data);
+        console.log("getmenudata: " + data);
         if (!data) dispatch(menuRequestFailed());
         else dispatch(menuRequestSuccess(data));
       },
       (error) => {
-        console.log(error);
+        console.log("getMenuError: " + error);
         dispatch(menuRequestFailed());
       }
     );
