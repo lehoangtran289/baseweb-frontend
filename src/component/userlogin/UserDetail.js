@@ -54,20 +54,21 @@ function UserDetail(props) {
     );
   }, [partyId]);
 
-  const handlePopup = (value) => {
-    setOpenPopup(value);
+  const handlePopup = () => {
+    setOpenPopup(!openPopup);
   };
 
   const deleteUser = (value) => {
     setIsWaiting(true);
-    authDelete(dispatch, token, "/userLogin/" + partyId).then(
+    authDelete(dispatch, token, "/users/" + partyId).then(
       (res) => {
         if (res === true) {
           setOpenPopup(false);
-          history.push("/users/list");
+          history.push("/userLogin/list");
         }
       },
       (error) => {
+        console.log(error);
         setData([]);
       }
     );
@@ -92,14 +93,14 @@ function UserDetail(props) {
           <Button
             variant="contained"
             disabled={isWaiting}
-            onClick={() => deleteUser()}
+            onClick={deleteUser}
             color="primary"
           >
             {isWaiting ? <CircularProgress color="secondary" /> : "Yes"}
           </Button>
           <Button
             disabled={isWaiting}
-            onClick={() => handlePopup(false)}
+            onClick={handlePopup}
             color="primary"
             autoFocus
           >
