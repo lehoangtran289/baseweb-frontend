@@ -7,25 +7,22 @@ import {
   CardContent,
   colors,
   Grid,
+  LinearProgress,
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100%",
   },
   avatar: {
-    backgroundColor: colors.red[600],
+    backgroundColor: colors.orange[600],
     height: 56,
     width: 56,
   },
-  differenceIcon: {
-    color: colors.red[900],
-  },
   differenceValue: {
-    color: colors.red[900],
+    color: colors.green[900],
     marginRight: theme.spacing(1),
   },
   caption: {
@@ -33,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Budget = ({ className, ...rest }) => {
+const TotalDeaths = ({ className, data, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -42,29 +39,24 @@ const Budget = ({ className, ...rest }) => {
         <Grid container justify="space-between" spacing={3}>
           <Grid item>
             <Typography color="textSecondary" gutterBottom variant="subtitle1">
-              BUDGET
+              TOTAL DEATHS
             </Typography>
-            <Typography color="textPrimary" variant="h6">
-              $24,000
+            <Typography color="textPrimary" variant="h4">
+              {Intl.NumberFormat().format(data.totalDeaths)}
             </Typography>
           </Grid>
-          {/*<Grid item>*/}
-          {/*  <Avatar className={classes.avatar}>*/}
-          {/*    <MoneyIcon />*/}
-          {/*  </Avatar>*/}
-          {/*</Grid>*/}
         </Grid>
         <Box mt={2} display="flex" alignItems="center">
-          <ArrowDownwardIcon className={classes.differenceIcon} />
+          {/*<ArrowDownwardIcon className={classes.differenceIcon} />*/}
           <Typography className={classes.differenceValue} variant="body2">
-            12%
+            Deaths around the globe
           </Typography>
           <Typography
             className={classes.caption}
             color="textSecondary"
             variant="caption"
           >
-            Since last month
+            {/*around the globe*/}
           </Typography>
         </Box>
       </CardContent>
@@ -72,8 +64,8 @@ const Budget = ({ className, ...rest }) => {
   );
 };
 
-Budget.propTypes = {
+TotalDeaths.propTypes = {
   className: PropTypes.string,
 };
 
-export default Budget;
+export default TotalDeaths;

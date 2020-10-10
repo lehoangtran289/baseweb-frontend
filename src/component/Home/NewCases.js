@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TotalCustomers = ({ className, ...rest }) => {
+const NewCases = ({ className, data, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -42,29 +42,24 @@ const TotalCustomers = ({ className, ...rest }) => {
         <Grid container justify="space-between" spacing={3}>
           <Grid item>
             <Typography color="textSecondary" gutterBottom variant="subtitle1">
-              TOTAL CUSTOMERS
+              NEW CASES IN {new Date().toLocaleDateString("en-US")}
             </Typography>
-            <Typography color="textPrimary" variant="h6">
-              1,600
+            <Typography color="textPrimary" variant="h4">
+              {Intl.NumberFormat().format(data.totalDiffFromPrevDay)}
             </Typography>
           </Grid>
-          {/*<Grid item>*/}
-          {/*  <Avatar className={classes.avatar}>*/}
-          {/*    <PeopleIcon />*/}
-          {/*  </Avatar>*/}
-          {/*</Grid>*/}
         </Grid>
         <Box mt={2} display="flex" alignItems="center">
           <ArrowUpwardIcon className={classes.differenceIcon} />
           <Typography className={classes.differenceValue} variant="body2">
-            16%
+            {Math.round((data.totalDiffFromPrevDay * 100) / data.totalCases)} %
           </Typography>
           <Typography
             className={classes.caption}
             color="textSecondary"
             variant="caption"
           >
-            Since last month
+            Since yesterday
           </Typography>
         </Box>
       </CardContent>
@@ -72,8 +67,8 @@ const TotalCustomers = ({ className, ...rest }) => {
   );
 };
 
-TotalCustomers.propTypes = {
+NewCases.propTypes = {
   className: PropTypes.string,
 };
 
-export default TotalCustomers;
+export default NewCases;

@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+    backgroundImage: `url(${"static/images/25407.jpg"})`,
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -155,6 +156,7 @@ function Layout(props) {
             <Button
               className={classes.headerButton}
               onClick={() => history.push("/")}
+              style={{ backgroundColor: "transparent" }}
               disableElevation
               disableRipple
             >
