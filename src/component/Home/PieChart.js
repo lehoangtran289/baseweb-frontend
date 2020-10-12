@@ -35,11 +35,7 @@ const PieChart = ({ className, data, ...rest }) => {
           data.totalDeaths,
           data.totalCases - data.totalDeaths - data.totalRecovers,
         ],
-        backgroundColor: [
-          colors.indigo[500],
-          colors.red[600],
-          colors.orange[600],
-        ],
+        backgroundColor: ["#3cba9f", "#c45850", "#3e95cd"],
         borderWidth: 8,
         borderColor: colors.common.white,
         hoverBorderColor: colors.common.white,
@@ -75,13 +71,13 @@ const PieChart = ({ className, data, ...rest }) => {
       title: "Recovers",
       value: Math.round((data.totalRecovers * 100) / data.totalCases),
       icon: TagFacesIcon,
-      color: colors.indigo[500],
+      color: "#3cba9f",
     },
     {
       title: "Deaths",
       value: Math.round((data.totalDeaths * 100) / data.totalCases),
       icon: SentimentVeryDissatisfiedIcon,
-      color: colors.red[600],
+      color: "#c45850",
     },
     {
       title: "Infected",
@@ -90,13 +86,13 @@ const PieChart = ({ className, data, ...rest }) => {
           data.totalCases
       ),
       icon: BugReportIcon,
-      color: colors.orange[600],
+      color: "#3e95cd",
     },
   ];
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
-      <CardHeader title="REPORTS BY CATEGORIES" />
+      <CardHeader title="Reports by categories" />
       <Divider />
       <CardContent>
         <Box height={300} position="relative">

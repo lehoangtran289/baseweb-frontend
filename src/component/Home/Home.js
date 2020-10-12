@@ -5,10 +5,9 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import NewCases from "./NewCases";
 import TotalDeaths from "./TotalDeaths";
 import TotalRecovers from "./TotalRecovers";
-import Sales from "./Sales";
+import LineChart from "./LineChart";
 import PieChart from "./PieChart";
-import LatestProducts from "./LatestProducts";
-import LatestOrders from "./LatestOrders";
+import DetailReports from "./DetailReports";
 import { API_URL } from "../../config/config";
 import TotalCases from "./TotalCases";
 import Typography from "@material-ui/core/Typography";
@@ -71,16 +70,13 @@ function Home(props) {
             <TotalRecovers data={data} />
           </Grid>
           <Grid item lg={8} md={12} xl={9} xs={12}>
-            <Sales />
+            <LineChart />
           </Grid>
           <Grid item lg={4} md={6} xl={3} xs={12}>
             <PieChart data={data} />
           </Grid>
-          <Grid item lg={4} md={6} xl={3} xs={12}>
-            <LatestProducts />
-          </Grid>
-          <Grid item lg={8} md={12} xl={9} xs={12}>
-            <LatestOrders />
+          <Grid item lg={12} md={12} xl={12} xs={12}>
+            <DetailReports id="details-report" data={data} />
           </Grid>
         </Grid>
       </Container>
