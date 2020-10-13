@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
@@ -85,7 +84,7 @@ export default function SignIn(props) {
         <div className={classes.paper}>
           <img
             className={classes.avatar}
-            src={process.env.PUBLIC_URL + "/logo192.png"}
+            src={process.env.PUBLIC_URL + "/3jwpEmd.png"}
           />
           <Typography component="h1" variant="h5">
             Sign in
@@ -159,18 +158,18 @@ export default function SignIn(props) {
               </Button>
             )}
 
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
+            {/*<Grid container>*/}
+            {/*  <Grid item xs>*/}
+            {/*    <Link href="#" variant="body2">*/}
+            {/*      Forgot password?*/}
+            {/*    </Link>*/}
+            {/*  </Grid>*/}
+            {/*  <Grid item>*/}
+            {/*    <Link href="#" variant="body2">*/}
+            {/*      {"Don't have an account? Sign Up"}*/}
+            {/*    </Link>*/}
+            {/*  </Grid>*/}
+            {/*</Grid>*/}
           </form>
         </div>
         <Box mt={8}>
