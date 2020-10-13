@@ -52,7 +52,10 @@ const NewCases = ({ className, data, ...rest }) => {
         <Box mt={2} display="flex" alignItems="center">
           <ArrowUpwardIcon className={classes.differenceIcon} />
           <Typography className={classes.differenceValue} variant="body2">
-            {Math.round((data.totalDiffFromPrevDay * 100) / data.totalCases)} %
+            {Math.round(
+              ((data.totalDiffFromPrevDay * 100) / data.totalCases) * 100
+            ) / 100}{" "}
+            %
           </Typography>
           <Typography
             className={classes.caption}

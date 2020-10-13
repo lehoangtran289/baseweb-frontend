@@ -53,8 +53,8 @@ function Home(props) {
               COVID19 LATEST REPORT
             </Typography>
             <Typography align="center" color="textPrimary" variant="subtitle2">
-              This application lists the latest reported COVID19 across the
-              globe. Reports are updated frequently once a day
+              This application lists the latest reported COVID19 cases across
+              the globe. Reports are updated frequently once a day
             </Typography>
           </Grid>
           <Grid item lg={3} sm={6} xl={3} xs={12}>

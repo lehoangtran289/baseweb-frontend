@@ -7,33 +7,52 @@ import {
   Card,
   CardContent,
   CardHeader,
-  colors,
   Divider,
   makeStyles,
-  useTheme,
 } from "@material-ui/core";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import { API_URL } from "../../config/config";
 import Loading from "../../common/Loading";
+import Menu from "@material-ui/core/Menu";
+import MenuItem from "@material-ui/core/MenuItem";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles(() => ({
   root: {},
 }));
 
+const menuListItem = ["Last 7 days", "Last 14 days", "Last 21 days"];
+
 const LineChart = ({ className, ...rest }) => {
   const classes = useStyles();
 
   const [isRequesting, setIsRequesting] = useState(false);
-  const [data, setData] = useState([]);
   const [cases, setCases] = useState([]);
   const [deaths, setDeaths] = useState([]);
   const [recovers, setRecovers] = useState([]);
-  const [days, setDays] = useState([]);
+  const [days, setDays] = useState([]); // date in x axis
+
+  const [selectedIndex, setSelectedIndex] = useState(0); // number of days
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClickListItem = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuItemClick = (event, index) => {
+    setSelectedIndex(index);
+    setAnchorEl(null);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     setIsRequesting(true);
-    fetch(API_URL + "/covid/data-last-7days", {
+    const numberOfDays = (selectedIndex + 1) * 7;
+    fetch(API_URL + `/covid/data-last-nth-days?days=${numberOfDays}`, {
       method: "GET",
       headers: {
         "content-type": "application/json",
@@ -43,14 +62,13 @@ const LineChart = ({ className, ...rest }) => {
       .then((res) => {
         console.log(res);
         setIsRequesting(false);
-        setData([...res]);
         setCases(res.map((i) => i.totalCases));
         setDays(res.map((i) => i.date));
         setDeaths(res.map((i) => i.totalDeaths));
         setRecovers(res.map((i) => i.totalRecovers));
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [selectedIndex]);
 
   const dataInChart = {
     datasets: [
@@ -93,12 +111,37 @@ const LineChart = ({ className, ...rest }) => {
     <Card className={clsx(classes.root, className)} {...rest}>
       <CardHeader
         action={
-          <Button endIcon={<ArrowDropDownIcon />} size="small" variant="text">
-            Last 7 days
-          </Button>
+          <>
+            <Button
+              endIcon={<ArrowDropDownIcon />}
+              size="small"
+              variant="text"
+              onClick={handleClickListItem}
+            >
+              {`Last ${(selectedIndex + 1) * 7} days`}
+            </Button>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              {menuListItem.map((option, index) => (
+                <MenuItem
+                  key={option}
+                  selected={index === selectedIndex}
+                  onClick={(event) => handleMenuItemClick(event, index)}
+                >
+                  {option}
+                </MenuItem>
+              ))}
+            </Menu>
+          </>
         }
         title="Latest reports"
       />
+
       <Divider />
 
       <CardContent>
