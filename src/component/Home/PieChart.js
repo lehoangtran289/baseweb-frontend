@@ -13,9 +13,9 @@ import {
   Typography,
   useTheme,
 } from "@material-ui/core";
-import LaptopMacIcon from "@material-ui/icons/LaptopMac";
-import PhoneIcon from "@material-ui/icons/Phone";
-import TabletIcon from "@material-ui/icons/Tablet";
+import BugReportIcon from "@material-ui/icons/BugReport";
+import TagFacesIcon from "@material-ui/icons/TagFaces";
+import SentimentVeryDissatisfiedIcon from "@material-ui/icons/SentimentVeryDissatisfied";
 
 const useStyles = makeStyles(() => ({
   root: {
@@ -23,25 +23,25 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const TrafficByDevice = ({ className, ...rest }) => {
+const PieChart = ({ className, data, ...rest }) => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const data = {
+  const piedata = {
     datasets: [
       {
-        data: [63, 15, 22],
-        backgroundColor: [
-          colors.indigo[500],
-          colors.red[600],
-          colors.orange[600],
+        data: [
+          data.totalRecovers,
+          data.totalDeaths,
+          data.totalCases - data.totalDeaths - data.totalRecovers,
         ],
+        backgroundColor: ["#3cba9f", "#c45850", "#3e95cd"],
         borderWidth: 8,
         borderColor: colors.common.white,
         hoverBorderColor: colors.common.white,
       },
     ],
-    labels: ["Desktop", "Tablet", "Mobile"],
+    labels: ["Recovers", "Deaths", "Infected"],
   };
 
   const options = {
@@ -68,32 +68,35 @@ const TrafficByDevice = ({ className, ...rest }) => {
 
   const devices = [
     {
-      title: "Desktop",
-      value: 63,
-      icon: LaptopMacIcon,
-      color: colors.indigo[500],
+      title: "Recovers",
+      value: Math.round((data.totalRecovers * 100) / data.totalCases),
+      icon: TagFacesIcon,
+      color: "#3cba9f",
     },
     {
-      title: "Tablet",
-      value: 15,
-      icon: TabletIcon,
-      color: colors.red[600],
+      title: "Deaths",
+      value: Math.round((data.totalDeaths * 100) / data.totalCases),
+      icon: SentimentVeryDissatisfiedIcon,
+      color: "#c45850",
     },
     {
-      title: "Mobile",
-      value: 23,
-      icon: PhoneIcon,
-      color: colors.orange[600],
+      title: "Infected",
+      value: Math.round(
+        ((data.totalCases - data.totalDeaths - data.totalRecovers) * 100) /
+          data.totalCases
+      ),
+      icon: BugReportIcon,
+      color: "#3e95cd",
     },
   ];
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
-      <CardHeader title="Traffic by Device" />
+      <CardHeader title="Reports by categories" />
       <Divider />
       <CardContent>
         <Box height={300} position="relative">
-          <Doughnut data={data} options={options} />
+          <Doughnut data={piedata} options={options} />
         </Box>
         <Box display="flex" justifyContent="center" mt={2}>
           {devices.map(({ color, icon: Icon, title, value }) => (
@@ -113,8 +116,8 @@ const TrafficByDevice = ({ className, ...rest }) => {
   );
 };
 
-TrafficByDevice.propTypes = {
+PieChart.propTypes = {
   className: PropTypes.string,
 };
 
-export default TrafficByDevice;
+export default PieChart;

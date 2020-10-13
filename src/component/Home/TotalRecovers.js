@@ -10,19 +10,15 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import ArrowUpwardIcon from "@material-ui/icons/ArrowUpward";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100%",
   },
   avatar: {
-    backgroundColor: colors.green[600],
+    backgroundColor: colors.indigo[600],
     height: 56,
     width: 56,
-  },
-  differenceIcon: {
-    color: colors.green[900],
   },
   differenceValue: {
     color: colors.green[900],
@@ -33,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TotalCustomers = ({ className, ...rest }) => {
+const TotalRecovers = ({ className, data, ...rest }) => {
   const classes = useStyles();
 
   return (
@@ -42,29 +38,23 @@ const TotalCustomers = ({ className, ...rest }) => {
         <Grid container justify="space-between" spacing={3}>
           <Grid item>
             <Typography color="textSecondary" gutterBottom variant="subtitle1">
-              TOTAL CUSTOMERS
+              TOTAL RECOVERS
             </Typography>
-            <Typography color="textPrimary" variant="h6">
-              1,600
+            <Typography color="textPrimary" variant="h4">
+              {Intl.NumberFormat().format(data.totalRecovers)}
             </Typography>
           </Grid>
-          {/*<Grid item>*/}
-          {/*  <Avatar className={classes.avatar}>*/}
-          {/*    <PeopleIcon />*/}
-          {/*  </Avatar>*/}
-          {/*</Grid>*/}
         </Grid>
         <Box mt={2} display="flex" alignItems="center">
-          <ArrowUpwardIcon className={classes.differenceIcon} />
           <Typography className={classes.differenceValue} variant="body2">
-            16%
+            Recovered cases
           </Typography>
           <Typography
             className={classes.caption}
             color="textSecondary"
             variant="caption"
           >
-            Since last month
+            {/*around the globe*/}
           </Typography>
         </Box>
       </CardContent>
@@ -72,8 +62,8 @@ const TotalCustomers = ({ className, ...rest }) => {
   );
 };
 
-TotalCustomers.propTypes = {
+TotalRecovers.propTypes = {
   className: PropTypes.string,
 };
 
-export default TotalCustomers;
+export default TotalRecovers;

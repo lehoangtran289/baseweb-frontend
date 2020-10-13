@@ -66,6 +66,9 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    height: "calc(100%)",
+    // backgroundImage: `url(${"static/images/Untitled-1.jpg"})`,
+    // color: "#FFFFFF",
   },
   menu: {
     paddingTop: theme.spacing(3),
