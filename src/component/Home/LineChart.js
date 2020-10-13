@@ -16,17 +16,10 @@ import { API_URL } from "../../config/config";
 import Loading from "../../common/Loading";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import Typography from "@material-ui/core/Typography";
-
-const useStyles = makeStyles(() => ({
-  root: {},
-}));
 
 const menuListItem = ["Last 7 days", "Last 14 days", "Last 21 days"];
 
 const LineChart = ({ className, ...rest }) => {
-  const classes = useStyles();
-
   const [isRequesting, setIsRequesting] = useState(false);
   const [cases, setCases] = useState([]);
   const [deaths, setDeaths] = useState([]);
