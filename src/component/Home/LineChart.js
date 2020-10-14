@@ -17,9 +17,14 @@ import Loading from "../../common/Loading";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 
+const useStyles = makeStyles((theme) => ({
+  root: {},
+}));
+
 const menuListItem = ["Last 7 days", "Last 14 days", "Last 21 days"];
 
 const LineChart = ({ className, ...rest }) => {
+  const classes = useStyles();
   const [isRequesting, setIsRequesting] = useState(false);
   const [cases, setCases] = useState([]);
   const [deaths, setDeaths] = useState([]);
@@ -97,8 +102,6 @@ const LineChart = ({ className, ...rest }) => {
       position: "bottom",
     },
   };
-
-  console.log(days, cases, deaths, recovers);
 
   return (
     <Card className={clsx(classes.root, className)} {...rest}>
