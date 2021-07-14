@@ -10,9 +10,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function ProgressBar({ setFile, file }) {
+/**
+ * this function uploads selected file to firebase storage ref
+ * and returns progress bar component showing upload progress
+ * @param setFile
+ * @param file
+ * @param ref
+ * @returns {JSX.Element}
+ */
+function ProgressBar({ setFile, file, ref }) {
   const classes = useStyles();
-  const { url, progress } = useStorage(file);
+  const { url, progress } = useStorage(file, ref);
   console.log(progress);
 
   useEffect(() => {

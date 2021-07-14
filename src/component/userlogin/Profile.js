@@ -14,6 +14,7 @@ import CardActions from "@material-ui/core/CardActions";
 import Button from "@material-ui/core/Button";
 import { toast } from "react-toastify";
 import ProgressBar from "../../common/ProgressBar";
+import { firebase_storage_ava_ref } from "../../config/config";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -93,7 +94,11 @@ const Profile = ({ className, data, ...rest }) => {
         </Button>
       </CardActions>
       {selectedFile && (
-        <ProgressBar file={selectedFile} setFile={setSelectedFile} />
+        <ProgressBar
+          file={selectedFile}
+          setFile={setSelectedFile}
+          ref={firebase_storage_ava_ref}
+        />
       )}
     </Card>
   );

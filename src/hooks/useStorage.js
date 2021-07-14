@@ -1,22 +1,19 @@
 import { useEffect, useState } from "react";
 import { firebaseStorage } from "../firebase/config";
-import { firebase_storage_ava_ref } from "../config/config";
 
 /**
- * This hook takes in a file and put to firebase storage
- * @param file
+ * This hook takes in a file and firebase storage ref,then put to firebase storage
+ * @param file, ref
  * @returns {{progress, error, url}}
  */
-const useStorage = (file) => {
+const useStorage = (file, ref) => {
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState(null);
   const [url, setUrl] = useState(null);
 
   useEffect(() => {
     // firebase storage references
-    const storageRef = firebaseStorage.ref(
-      firebase_storage_ava_ref + file.name
-    );
+    const storageRef = firebaseStorage.ref(ref + file.name);
 
     storageRef.put(file).on(
       "state_changed",
